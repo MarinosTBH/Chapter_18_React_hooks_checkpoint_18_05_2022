@@ -1,127 +1,136 @@
-
-
-import Nav from "./components/Nav";
-import MovieContainer from './components/MovieContainer';
 import React, { useState } from "react";
-import AddMovie from './components/AddMovie';
+import NavBar from "./Comps/NavBar";
+import MovieList from './Comps/MovieList'; //Filtering is compiled in MovieList
+import AddMovie from './Comps/Add';
 
+import "./App.css"
+import p1 from "./Posters/Assassin.jpg"
+import p2 from "./Posters/Butterfly man.jpg"
+import p3 from "./Posters/Jaws.jpg"
+import p4 from "./Posters/Joker.jpg"
+import p5 from "./Posters/Jordan Peter.jpg"
+import p6 from "./Posters/Lamb.jpg"
+import p7 from "./Posters/Moonlight.jpg"
+import p8 from "./Posters/Polis.jpg"
+import p9 from "./Posters/Spree.jpg"
 
 function App() {
+  // DATA STATES
+  ////////////////////////////////////// 
   const [Films, setFilms] = useState([
     {
       id: Math.random(),
-      img: "https://i.pinimg.com/originals/c4/1f/38/c41f3825633d80e0ecd833468db92c05.jpg",
-      name: "Jhon Wick",
-      descrption:"",
+      poster: p1,
+      name: "Assassin",
       rating: 4,
     },
     {
       id: Math.random(),
-      img: "https://m.media-amazon.com/images/M/MV5BMTYwOTEwNjAzMl5BMl5BanBnXkFtZTcwODc5MTUwMw@@._V1_.jpg",
-      name: "Avatar",
-      descrption:"",
+      poster: p2,
+      name: "Butterfly man",
       rating: 2,
     },
     {
       id: Math.random(),
-      img: "https://m.media-amazon.com/images/M/MV5BMTM0MDgwNjMyMl5BMl5BanBnXkFtZTcwNTg3NzAzMw@@._V1_.jpg",
-      name: "Iron Man 2",
-      descrption:"",
+      poster: p3,
+      name: "Jaws",
       rating: 5,
     },
     {
       id: Math.random(),
-      img: "https://fr.web.img2.acsta.net/medias/nmedia/18/63/97/89/18949761.jpg",
-      name: "Batman",
-      descrption:"",
+      poster: p4,
+      name: "Joker",
       rating: 5,
     },
     {
       id: Math.random(),
-      img: "https://fr.web.img4.acsta.net/pictures/16/01/19/16/49/249124.jpg",
-      name: "Deadpool 2",
-      descrption:"",
+      poster: p5,
+      name: "Jordan Peter",
       rating: 4,
     },
     {
       id: Math.random(),
-      img: "https://m.media-amazon.com/images/M/MV5BODQ0NDhjYWItYTMxZi00NTk2LWIzNDEtOWZiYWYxZjc2MTgxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg",
-      name: "Jumnanji",
-      descrption:"",
+      poster: p6,
+      name: "Lamb",
       rating: 3,
     },
     {
       id: Math.random(),
-      img: "https://starzplay-img-prod-ssl.akamaized.net/474w/MGM/VIKINGSY2013S06E001/VIKINGSY2013S06E001-474x677-PST.jpg",
-      name: "Vikings",
-      descrption:"",
+      poster: p7,
+      name: "Moonlight",
       rating: 1,
     },
+    {
+      id :Math.random(),
+      poster : p8,
+      name: "Polis",
+      rating : 4
+    },
+    {
+      id :Math.random(),
+      poster : p9,
+      name: "Spree",
+      rating : 4
+    }
   ]);
-
-const[Input,setInput] = useState ("");
-
-const[Rating, setRating] = useState(0);
+  ////////////////////////////////////// 
 
 
+// STATES
+/////////////////////////////////////////////////////////////////////////
+  const[Input,setInput] = useState ("");
+
+  const[Rating, setRating] = useState(0);
+/////////////////////////////////////////////////////////////////////////
+
+//FUNCTIONS
+/////////////////////////////////////////////////////////////////////////
+  const handleInput = (e) => {
+
+    setInput(e.target.value);
+  };
+
+  const handleRating = (newRating) => {
+    setRating(newRating);
+  };
+
+  const [show, setModalShow] = useState(false);
+
+  const handleMovie = () => {
+    setModalShow(!show);
+  };
+
+  const[newMovie, setNewMovie] = useState({
+    id:Math.random(),
+    poster:"",
+    name:"",
+    rating: 0,
+  });
 
 
-const handleInput = (e) => {
-
-  setInput(e.target.value);
-};
-
-const handleRating = (newRating) => {
-  setRating(newRating);
-};
-
-const [show, setModalShow] = useState(false);
-
-const handleMovie = () => {
-  setModalShow(!show);
-  // setModalShow(true);
- };
-
- const[newMovie, setNewMovie] = useState({
-   id:Math.random(),
-   img:"",
-   name:"",
-   descrption:"",
-   rating: 0,
- });
-
-
- const handleAddMovie = (e) => {
-  if (e.target.name === "rating") {
-  setNewMovie({ ...newMovie, [e.target.name]: +e.target.value});
-} else {
-  setNewMovie({ ...newMovie, [e.target.name]: e.target.value});
-}
- }
-
-const addMovie = () => {
-  if(newMovie.rating>=1 && newMovie.rating<=5){
-    setFilms([...Films,newMovie])
-    handleMovie ()
+  const handleAddMovie = (e) => {
+    if (e.target.name === "rating") {
+    setNewMovie({ ...newMovie, [e.target.name]: +e.target.value});
+  } else {
+    setNewMovie({ ...newMovie, [e.target.name]: e.target.value});
   }
-}
+  }
 
+  const addMovie = () => {
+    if(newMovie.rating>=1 && newMovie.rating<=5){
+      setFilms([...Films,newMovie])
+      handleMovie ()
+    }
+  }
+/////////////////////////////////////////////////////////////////////////
   return (
-  
-  <div className="App">
-    
-<Nav Input={Input} handleInput={handleInput} Rating={Rating} handleRating={handleRating} handleMovie={handleMovie} />
-
-<MovieContainer Films={Films} Input={Input} Rating={Rating} />
-
-<AddMovie show={show}
-        onHide={() => setModalShow(false)} handleRating={handleRating} handleMovie={handleMovie} newMovie={newMovie} handleAddMovie={handleAddMovie} addMovie={addMovie}/>
-
-
-{/* <AddMovie show={modalShow}
-        onHide={() => setModalShow(false)} /> */}
-  </div>
+    <div className="App">
+      <div className="App-content">
+      <NavBar Input={Input} handleInput={handleInput} Rating={Rating} handleRating={handleRating} handleMovie={handleMovie} />
+      <MovieList Films={Films} Input={Input} Rating={Rating} />
+      <AddMovie show={show} onHide={() => setModalShow(false)} handleRating={handleRating} handleMovie={handleMovie} newMovie={newMovie} handleAddMovie={handleAddMovie} addMovie={addMovie}/>
+      </div>
+    </div>
   );
-  }
-
-  export default App;
+}
+export default App;
