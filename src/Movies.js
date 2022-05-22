@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import {Routes,Route} from "react-router-dom"
 import NavBar from "./Comps/NavBar";
 import MovieList from './Comps/MovieList'; //Filtering is compiled in MovieList
 import AddMovie from './Comps/Add';
+import MovieRoute from './Comps/MovieRoute';
 
-import "./App.css"
+
+
+import "./Home.css"
 import p1 from "./Posters/Assassin.jpg"
 import p2 from "./Posters/Butterfly man.jpg"
 import p3 from "./Posters/Jaws.jpg"
@@ -19,55 +23,55 @@ function App() {
   ////////////////////////////////////// 
   const [Films, setFilms] = useState([
     {
-      id: Math.random(),
+      id:  1,
       poster: p1,
       name: "Assassin",
       rating: 4,
     },
     {
-      id: Math.random(),
+      id:  2,
       poster: p2,
       name: "Butterfly man",
       rating: 2,
     },
     {
-      id: Math.random(),
+      id:  3,
       poster: p3,
       name: "Jaws",
       rating: 5,
     },
     {
-      id: Math.random(),
+      id: 4,
       poster: p4,
       name: "Joker",
       rating: 5,
     },
     {
-      id: Math.random(),
+      id:  5,
       poster: p5,
       name: "Jordan Peter",
       rating: 4,
     },
     {
-      id: Math.random(),
+      id:  6,
       poster: p6,
       name: "Lamb",
       rating: 3,
     },
     {
-      id: Math.random(),
+      id:  7,
       poster: p7,
       name: "Moonlight",
       rating: 1,
     },
     {
-      id :Math.random(),
+      id : 8,
       poster : p8,
       name: "Polis",
       rating : 4
     },
     {
-      id :Math.random(),
+      id : 9,
       poster : p9,
       name: "Spree",
       rating : 4
@@ -86,7 +90,6 @@ function App() {
 //FUNCTIONS
 /////////////////////////////////////////////////////////////////////////
   const handleInput = (e) => {
-
     setInput(e.target.value);
   };
 
@@ -95,18 +98,25 @@ function App() {
   };
 
   const [show, setModalShow] = useState(false);
-
-  const handleMovie = () => {
-    setModalShow(!show);
-  };
-
+  
   const[newMovie, setNewMovie] = useState({
-    id:Math.random(),
+    id: Math.random(),
     poster:"",
     name:"",
     rating: 0,
   });
 
+  const handleMovie = () => {
+    setModalShow(!show);
+  };
+
+
+  const addMovie = () => {
+    if(newMovie.rating>=1 && newMovie.rating<=5){
+      setFilms([...Films,newMovie])
+      handleMovie ()
+    }
+  }
 
   const handleAddMovie = (e) => {
     if (e.target.name === "rating") {
@@ -116,21 +126,21 @@ function App() {
   }
   }
 
-  const addMovie = () => {
-    if(newMovie.rating>=1 && newMovie.rating<=5){
-      setFilms([...Films,newMovie])
-      handleMovie ()
-    }
-  }
 /////////////////////////////////////////////////////////////////////////
   return (
+
     <div className="App">
       <div className="App-content">
-      <NavBar Input={Input} handleInput={handleInput} Rating={Rating} handleRating={handleRating} handleMovie={handleMovie} />
-      <MovieList Films={Films} Input={Input} Rating={Rating} />
-      <AddMovie show={show} onHide={() => setModalShow(false)} handleRating={handleRating} handleMovie={handleMovie} newMovie={newMovie} handleAddMovie={handleAddMovie} addMovie={addMovie}/>
+        <NavBar Input={Input} handleInput={handleInput} Rating={Rating} handleRating={handleRating} handleMovie={handleMovie} />
+        <MovieList Films={Films} Input={Input} Rating={Rating} />
+        <AddMovie show={show} onHide={() => setModalShow(false)} handleRating={handleRating} handleMovie={handleMovie} newMovie={newMovie} handleAddMovie={handleAddMovie} addMovie={addMovie}/>
+<Routes>
+<Route path="/Movies/MovieRoute/:id" element={<MovieRoute Films={Films} />}/> 
+</Routes>
+
       </div>
     </div>
+
   );
 }
 export default App;
